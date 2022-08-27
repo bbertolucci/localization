@@ -302,6 +302,12 @@ class MainActivity: AppCompatActivity(), SharedPreferences.OnSharedPreferenceCha
                     updateUI(null)
                 }
             }
+            .addOnFailureListener {
+                Log.e(TAG, "Exception", it)
+            }
+            .addOnCanceledListener {
+                Log.d(TAG,"Canceled")
+            }
     }
 
     private fun signIn() {
