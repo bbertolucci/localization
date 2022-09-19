@@ -106,10 +106,7 @@ class LocationUpdatesService: Service() {
         )
         FirebaseApp.initializeApp(applicationContext)
         val database = Firebase.database
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val formatted = current.format(formatter)
-        myRef = database.getReference("gps").child(formatted)
+        myRef = database.getReference("gps")
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mLocationCallback = object : LocationCallback() {
@@ -309,7 +306,11 @@ class LocationUpdatesService: Service() {
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
         val formatted = current.format(formatter)
-        myRef.child(formatted).updateChildren(mapOf(Pair("x",location!!.longitude),Pair("y",location.latitude)))
+
+        val formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formatted2 = current.format(formatter2)
+
+        myRef.child(formatted2).child(formatted).updateChildren(mapOf(Pair("x",location!!.longitude),Pair("y",location.latitude)))
   //      myRef.child(formatted).child("x").setValue(location!!.longitude)
   //      myRef.child(formatted).child("y").setValue(location.latitude)
 
